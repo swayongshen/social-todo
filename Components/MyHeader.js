@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import { Header } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const MyHeader = ({showMenu, setShowMenu}) => {
+const MyHeader = () => {
+  const [showMenu, setShowMenu] = useState(false);
+
   return (<Header
     leftComponent={showMenu 
       ? 
@@ -11,6 +13,7 @@ const MyHeader = ({showMenu, setShowMenu}) => {
           name="menu-unfold"
           backgroundColor="#121212"
           color="white"
+          style={style.button}
           onPress={() => {
             setShowMenu(() => false);
           }}/>
@@ -19,6 +22,7 @@ const MyHeader = ({showMenu, setShowMenu}) => {
           name="menu-fold"
           backgroundColor="#121212"
           color="white"
+          style={style.button}
           onPress={() => {
             setShowMenu(() => true)}}/>
     }
@@ -36,7 +40,14 @@ const style = StyleSheet.create({
   title: {
     color:"white",
     fontFamily:"sans-serif",
-    fontSize:24
+    fontSize:24,
+    paddingTop:5,
+    paddingBottom:0
+  },
+
+  button: {
+    paddingTop:12,
+    paddingBottom:0
   }
 })
 
