@@ -6,11 +6,11 @@ import ListItem from './ListItem';
 
 
 
-const List = ({items}) => {
+const List = ({tasks}) => {
     return (
         <View>
-            {items.map((item, index) => {
-                return <ListItem key={item.id} {... item}/>
+            {tasks.map((task, index) => {
+                return <ListItem key={task.id} {... task}/>
             })}
         </View>)
 }

@@ -3,7 +3,9 @@ import {StyleSheet, View, Text} from 'react-native';
 import { Header } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const MyHeader = () => {
+import AddTaskButton from './AddTaskButton';
+
+const MyHeader = ({addTask}) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (<Header
@@ -27,6 +29,7 @@ const MyHeader = () => {
             setShowMenu(() => true)}}/>
     }
     centerComponent={ <Text style={style.title}>Social To Do</Text> }
+    rightComponent={ <AddTaskButton addTask={addTask}/>}
     containerStyle={style.header}
   />);
 }

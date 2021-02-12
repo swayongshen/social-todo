@@ -4,12 +4,23 @@ import { Text, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
 
-const DeleteTask = ({id, hideDeleteTask, deleteItem}) => {
+import { ListContext } from '../App';
+
+
+
+const DeleteTask = ({id, hideDeleteTask}) => {
+    const {tasks, setTasks} = useContext(ListContext);
+
+    const deleteTask = (idToDelete) => {
+        filteredTasks = tasks.filter(task => task.id != idToDelete);
+        setTasks(() => filteredTasks);
+    }
+
     return (<View>
         <Icon.Button
             name="delete"
             onPress={() => {
-                deleteItem(id);
+                deleteTask(id);
                 hideDeleteTask();
             }}
             backgroundColor="red">

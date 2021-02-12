@@ -21,6 +21,7 @@ import {
 import MyHeader from './Components/MyHeader';
 import List from './Components/List';
 import DeleteTask from './Components/DeleteTask';
+import AddTaskModal from './Components/AddTaskModal';
 
 
 //Line break component
@@ -36,27 +37,27 @@ export const ListContext = React.createContext();
 
 const App: () => React$Node = () => {
 
-    const [items, setItems] = useState(data)
+    /** State variable to maintain the list of tasks. */
+    const [tasks, setTasks] = useState(data)
 
-    const deleteItem = (idToDelete) => {
-        filteredItems = items.filter(x => x.id != idToDelete);
-        setItems(() => filteredItems);
-    }
-
+    /** Used to display the delete task confirmation when user long presses a task. */
     const [deleteModal, setDeleteModal] = useState(null);
-
     const showDeleteTask = (id) => {
         setDeleteModal(() => {
-            return <DeleteTask id={id} hideDeleteTask={hideDeleteTask} deleteItem={deleteItem}/>
+            return <DeleteTask id={id} hideDeleteTask={hideDeleteTask}/>
         });
     }
-
     const hideDeleteTask = () => setDeleteModal(() => null);
 
+    /** Used to display add task dialogue when add button is pressed. */
+    const [showAddTask, setShowAddTask] = useState(false);
+
+    /** State to be passed as context */
     const state = {
         showDeleteTask: showDeleteTask,
         hideDeleteTask: hideDeleteTask,
-        deleteItem: deleteItem
+        setTasks: setTasks,
+        tasks: tasks
     };
 
     return (
@@ -70,12 +71,13 @@ const App: () => React$Node = () => {
                             <Text style={styles.footer}>Engine: Hermes</Text>
                         </View>
                     )}
-                    <MyHeader/>
+                    <MyHeader addTask={() => setShowAddTask(() => true)}/>
                     <Br />
                     <View>
-                        <List items={items}/>
+                        <List tasks={tasks}/>
                     </View>
                 </View>
+                <AddTaskModal showAddTask={showAddTask} setShowAddTask={setShowAddTask}/>
                 <View style={styles.bottomView}>{deleteModal}</View>
             </SafeAreaView>
         </ListContext.Provider>
