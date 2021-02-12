@@ -18,7 +18,17 @@ import {
 } from 'react-native';
 
 
-import MyHeader from './myheader';
+import MyHeader from './Components/MyHeader';
+import List from './Components/List';
+
+//Temporary hardcode list items
+const items = [
+  {isDone:false, description:"Boo"},
+  {isDone:true, description:"Bam"}
+]
+
+//Line break component
+const Br = () => <Text>{'\n'}</Text>;
 
 const App : () => React$Node = () => {
 
@@ -37,8 +47,9 @@ const App : () => React$Node = () => {
               </View>
             )}
             <MyHeader showMenu={showMenu} setShowMenu={setShowMenu}/>
-            <Text>bro</Text>
-            <View style={styles.body}>
+            <Br/>
+            <View>
+              <List items={items}/>
             </View>
           </ScrollView>
         </SafeAreaView>
