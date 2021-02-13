@@ -14,7 +14,7 @@ const DeleteTask = ({id}) => {
     const hideDeleteTask = () => setDeleteModal(() => null);
 
     const deleteTask = (idToDelete) => {
-        filteredTasks = tasks.filter(task => task.id != idToDelete);
+        const filteredTasks = tasks.filter(task => task.id != idToDelete);
         setTasks(() => filteredTasks);
     }
 

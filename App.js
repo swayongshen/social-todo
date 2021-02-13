@@ -19,7 +19,7 @@ import {
 
 import MyHeader from './Components/MyHeader';
 import List from './Components/List';
-import AddTaskModal from './Components/AddTaskModal';
+
 
 
 //Line break component
