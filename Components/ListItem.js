@@ -3,12 +3,15 @@ import { Text, StyleSheet, View, ProgressViewIOSComponent } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Fontisto';
 
-import { ListContext } from '../App'
-
 const ListItem = ({id, isDone, description}) => {
     const [done, setDone] = useState(isDone);
-    const state = useContext(ListContext);
 
+    const showDeleteTask = (id) => {
+        setDeleteModal(() => {
+            return <DeleteTask id={id} />
+        });
+    }
+    
     return (
         <>
         <View style={{flexDirection:"row"}}>
@@ -37,7 +40,7 @@ const ListItem = ({id, isDone, description}) => {
                     />
             }
             <Text backgroundColor="black" style={style.buttonText} onLongPress={() => {
-                state.showDeleteTask(id)}}>{description}</Text>
+                showDeleteTask(id)}}>{description}</Text>
         </View>
         </>
     )
@@ -54,7 +57,8 @@ const style = StyleSheet.create({
     buttonText: {
         flex: 1,
         paddingLeft: 10,
-        paddingTop: 10
+        paddingTop: 10,
+        borderRadius: 2
     }
 
 })

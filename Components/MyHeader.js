@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Header } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AddIcon from 'react-native-vector-icons/AntDesign';
+import AddTaskModal from './AddTaskModal';
 
 
-const MyHeader = ({ addTask }) => {
+const MyHeader = ({setAddTaskModal}) => {
     const [showMenu, setShowMenu] = useState(false);
 
     /** Show either open or fold menu button depending on whether menu is open. */
@@ -25,7 +26,7 @@ const MyHeader = ({ addTask }) => {
         backgroundColor="#121212"
         color="white"
         style={style.addButton}
-        onPress={() => addTask()}
+        onPress={() => setAddTaskModal(() => <AddTaskModal setAddTaskModal={setAddTaskModal}/>)}
     />
 
     return (<Header

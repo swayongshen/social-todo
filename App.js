@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 import {
     StyleSheet,
@@ -17,51 +17,43 @@ import {
     SafeAreaView,
 } from 'react-native';
 
-
 import MyHeader from './Components/MyHeader';
 import List from './Components/List';
-import DeleteTask from './Components/DeleteTask';
 import AddTaskModal from './Components/AddTaskModal';
 
 
 //Line break component
 const Br = () => <Text>{'\n'}</Text>;
 
-//Temporary hardcode list items
-const data = [
-    { id: 1, isDone: false, description: "Boo" },
-    { id: 2, isDone: true, description: "Bam" }
-]
-
-export const ListContext = React.createContext();
+export const AppContext = React.createContext();
 
 const App: () => React$Node = () => {
+
+    //Temporary hardcode list items
+    const data = [
+        { id: 1, isDone: false, description: "Boo" },
+        { id: 2, isDone: true, description: "Bam" }
+    ]
 
     /** State variable to maintain the list of tasks. */
     const [tasks, setTasks] = useState(data)
 
     /** Used to display the delete task confirmation when user long presses a task. */
     const [deleteModal, setDeleteModal] = useState(null);
-    const showDeleteTask = (id) => {
-        setDeleteModal(() => {
-            return <DeleteTask id={id} hideDeleteTask={hideDeleteTask}/>
-        });
-    }
-    const hideDeleteTask = () => setDeleteModal(() => null);
 
     /** Used to display add task dialogue when add button is pressed. */
-    const [showAddTask, setShowAddTask] = useState(false);
+    const [addTaskModal, setAddTaskModal] = useState(null);
 
-    /** State to be passed as context */
-    const state = {
-        showDeleteTask: showDeleteTask,
-        hideDeleteTask: hideDeleteTask,
+     /** State to be passed as context */
+     const state = {
         setTasks: setTasks,
-        tasks: tasks
+        tasks: tasks,
+        deleteModal: deleteModal,
+        setDeleteModal: setDeleteModal,
     };
 
     return (
-        <ListContext.Provider value={state}>
+        <AppContext.Provider value={state}>
             <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#121212" />
             <SafeAreaView>
                 <View>
@@ -71,16 +63,16 @@ const App: () => React$Node = () => {
                             <Text style={styles.footer}>Engine: Hermes</Text>
                         </View>
                     )}
-                    <MyHeader addTask={() => setShowAddTask(() => true)}/>
+                    <MyHeader setAddTaskModal={setAddTaskModal}/>
                     <Br />
                     <View>
                         <List tasks={tasks}/>
                     </View>
                 </View>
-                <AddTaskModal showAddTask={showAddTask} setShowAddTask={setShowAddTask}/>
+                {addTaskModal}
                 <View style={styles.bottomView}>{deleteModal}</View>
             </SafeAreaView>
-        </ListContext.Provider>
+        </AppContext.Provider>
     );
 };
 

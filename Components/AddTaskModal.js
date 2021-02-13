@@ -2,39 +2,41 @@ import React, {useContext} from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
 import Modal from 'react-native-modal';
 import { useForm, Controller } from 'react-hook-form';
-import { ListContext } from '../App'
+import { AppContext } from '../App'
 
-const AddTaskModal = ({ showAddTask, setShowAddTask }) => {
+const AddTaskModal = ({setAddTaskModal }) => {
     const { control, handleSubmit, errors } = useForm();
-    const state = useContext(ListContext);
+    const { tasks, setTasks } = useContext(AppContext);
 
     const addTask = (formData) => {
-        const currTasks = state.tasks;
+        const currTasks = tasks;
         const newTask = {id: currTasks.length + 1, isDone: false, description: formData.description}
         currTasks.push(newTask);
-        state.setTasks(currTasks);
-        setShowAddTask(false);
+        setTasks(currTasks);
+        setAddTaskModal(null);
     }
+
+    const inputField = <Controller
+        control={control}
+        render={({ onChange, onBlur, value }) => (
+            <TextInput
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+                placeholder="Enter your new to do here."
+            />
+        )}
+        name="description"
+        rules={{ required: true }}
+        defaultValue=""
+    />
 
     return (
         <View>
             {console.log("render")}
-            <Modal isVisible={showAddTask} backdropColor="white">
+            <Modal isVisible={true} backdropColor="white">
                 <View style={style.form}>
-                    <Controller
-                        control={control}
-                        render={({ onChange, onBlur, value }) => (
-                            <TextInput
-                                onBlur={onBlur}
-                                onChangeText={value => onChange(value)}
-                                value={value}
-                                placeholder="Enter your new to do here."
-                            />
-                        )}
-                        name="description"
-                        rules={{ required: true }}
-                        defaultValue=""
-                    />
+                    {inputField}
                     {errors.description && <Text>This is required.</Text>}
                     <View style={style.buttonRow}>
                         <Button 
@@ -44,7 +46,7 @@ const AddTaskModal = ({ showAddTask, setShowAddTask }) => {
                         <Text style={{backgroundColor:"white"}}>  </Text>
                         <Button title="Cancel" 
                             onPress={() => {
-                                setShowAddTask(() => false)}
+                                setAddTaskModal(() => null)}
                             }
                         />
                     </View>
