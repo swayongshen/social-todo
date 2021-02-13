@@ -11,18 +11,14 @@ const Br = () => <Text>{'\n'}</Text>;
 
 const Home = () => {
     const state = useContext(AppContext);
-
-    /** Used to display add task dialogue when add button is pressed. */
-    const [addTaskModal, setAddTaskModal] = useState(null);
     
     return (
     <View>
-        <MyHeader setAddTaskModal={setAddTaskModal} />
         <Br />
         <View>
             <List tasks={state.tasks} />
         </View>
-        {addTaskModal}
+        {state.addTaskModal}
         <View>{state.deleteModal}</View>
     </View>);
 }

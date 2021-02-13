@@ -21,9 +21,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Home from './Components/Home';
 import Login from './Components/Login';
-
-
-
+import MyHeader from './Components/MyHeader';
 
 
 export const AppContext = React.createContext();
@@ -42,6 +40,8 @@ const App: () => React$Node = () => {
     /** Used to display the delete task confirmation when user long presses a task. */
     const [deleteModal, setDeleteModal] = useState(null);
 
+    /** Used to display add task dialogue when add button is pressed. */
+    const [addTaskModal, setAddTaskModal] = useState(null);
 
     /** State to be passed as context */
     const state = {
@@ -49,6 +49,7 @@ const App: () => React$Node = () => {
         tasks: tasks,
         deleteModal: deleteModal,
         setDeleteModal: setDeleteModal,
+        addTaskModal: addTaskModal
     };
 
     const Drawer = createDrawerNavigator();
@@ -56,6 +57,7 @@ const App: () => React$Node = () => {
     return (
         <AppContext.Provider value={state}>
             <StatusBar barStyle="light-content" hidden={false} backgroundColor="#121212" />
+            <MyHeader setAddTaskModal={setAddTaskModal} />
             <NavigationContainer>
                 <Drawer.Navigator initialRouteName="Home">
                     <Drawer.Screen name="Home" component={Home} />
