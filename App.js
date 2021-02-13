@@ -7,7 +7,6 @@
  */
 
 import React, { useState } from 'react';
-
 import {
     StyleSheet,
     ScrollView,
@@ -17,13 +16,15 @@ import {
     SafeAreaView,
 } from 'react-native';
 
-import MyHeader from './Components/MyHeader';
-import List from './Components/List';
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import { NavigationContainer } from '@react-navigation/native';
+
+import Home from './Components/Home';
+import Login from './Components/Login';
 
 
 
-//Line break component
-const Br = () => <Text>{'\n'}</Text>;
+
 
 export const AppContext = React.createContext();
 
@@ -41,38 +42,28 @@ const App: () => React$Node = () => {
     /** Used to display the delete task confirmation when user long presses a task. */
     const [deleteModal, setDeleteModal] = useState(null);
 
-    /** Used to display add task dialogue when add button is pressed. */
-    const [addTaskModal, setAddTaskModal] = useState(null);
 
-     /** State to be passed as context */
-     const state = {
+    /** State to be passed as context */
+    const state = {
         setTasks: setTasks,
         tasks: tasks,
         deleteModal: deleteModal,
         setDeleteModal: setDeleteModal,
     };
 
+    const Drawer = createDrawerNavigator();
+
     return (
         <AppContext.Provider value={state}>
-            <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#121212" />
-            <SafeAreaView>
-                <View>
-                    {/* Hermes is a javascript engine optimised to run on Android */}
-                    {global.HermesInternal == null ? null : (
-                        <View style={styles.engine}>
-                            <Text style={styles.footer}>Engine: Hermes</Text>
-                        </View>
-                    )}
-                    <MyHeader setAddTaskModal={setAddTaskModal}/>
-                    <Br />
-                    <View>
-                        <List tasks={tasks}/>
-                    </View>
-                </View>
-                {addTaskModal}
-                <View style={styles.bottomView}>{deleteModal}</View>
-            </SafeAreaView>
+            <StatusBar barStyle="light-content" hidden={false} backgroundColor="#121212" />
+            <NavigationContainer>
+                <Drawer.Navigator initialRouteName="Home">
+                    <Drawer.Screen name="Home" component={Home} />
+                    <Drawer.Screen name="Login" component={Login} />
+                </Drawer.Navigator>
+            </NavigationContainer>
         </AppContext.Provider>
+
     );
 };
 
