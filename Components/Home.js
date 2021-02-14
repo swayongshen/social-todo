@@ -14,7 +14,7 @@ const Home = ({navigation}) => {
     
     return (
     <View>
-        <MyHeader navigation={navigation}/>
+        <MyHeader navigation={navigation} type="home"/>
         <Br />
         <View>
             <List tasks={state.tasks} />

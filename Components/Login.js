@@ -5,7 +5,7 @@ import MyHeader from './MyHeader';
 const Login = ({navigation}) => {
     return (
     <View>
-        <MyHeader navigation={navigation}/>
+        <MyHeader navigation={navigation} type="login"/>
         <Text>Login!</Text>
     </View>)
 }
