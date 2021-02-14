@@ -16,12 +16,12 @@ import {
     SafeAreaView,
 } from 'react-native';
 
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import { NavigationContainer } from '@react-navigation/native';
 
-import Home from './Components/Home';
-import Login from './Components/Login';
 import MyHeader from './Components/MyHeader';
+import { SafeAreaProvider } from 'react-native-safe-area-view';
+import LeftDrawer from './Components/LeftDrawer';
 
 
 export const AppContext = React.createContext();
@@ -49,22 +49,21 @@ const App: () => React$Node = () => {
         tasks: tasks,
         deleteModal: deleteModal,
         setDeleteModal: setDeleteModal,
-        addTaskModal: addTaskModal
+        addTaskModal: addTaskModal,
+        setAddTaskModal: setAddTaskModal
     };
 
     const Drawer = createDrawerNavigator();
 
     return (
-        <AppContext.Provider value={state}>
-            <StatusBar barStyle="light-content" hidden={false} backgroundColor="#121212" />
-            <MyHeader setAddTaskModal={setAddTaskModal} />
-            <NavigationContainer>
-                <Drawer.Navigator initialRouteName="Home">
-                    <Drawer.Screen name="Home" component={Home} />
-                    <Drawer.Screen name="Login" component={Login} />
-                </Drawer.Navigator>
-            </NavigationContainer>
-        </AppContext.Provider>
+        <SafeAreaProvider>
+            <AppContext.Provider value={state}>
+                <StatusBar barStyle="light-content" hidden={false} backgroundColor="#121212" />
+                <NavigationContainer>
+                    <LeftDrawer />
+                </NavigationContainer>
+            </AppContext.Provider>
+        </SafeAreaProvider>
 
     );
 };

@@ -1,24 +1,28 @@
-import React from "react";
-import { View, Text, Button, Dimensions } from "react-native";
-import { createDrawerNavigator, createAppContainer } from "react-navigation";
-import LeftSideBar from "../sidebar/leftsidebar";
-import Login from "../Components/login/login"
-const WIDTH = Dimensions.get('window').width;
-const LeftDrawer = createDrawerNavigator(
-    {
-        Login: { screen: Login }
-    },
-    {
-        initialRouteName: "Login",
-        drawerWidth: WIDTH * 0.80,
-        drawerPosition: 'left',
-        contentOptions: {
-            activeTintColor: "#e91e63"
-        },
-        contentComponent: props => <LeftSideBar {...props} />,
-        drawerOpenRoute: 'LeftSideMenu',
-        drawerCloseRoute: 'LeftSideMenuClose',
-        drawerToggleRoute: 'LeftSideMenuToggle',
-    }
-);
+import React, { useContext } from "react";
+import { View, Text, Button, useWindowDimensions } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
+import Login from "./Login"
+import Home from "./Home"
+
+const Drawer = createDrawerNavigator();
+
+function LeftDrawer() {
+    const dimensions = useWindowDimensions();
+
+    const isLargeScreen = dimensions.width >= 1920;
+
+    return (
+        <Drawer.Navigator
+            openByDefault
+            drawerType={isLargeScreen ? 'permanent' : 'back'}
+            drawerStyle={isLargeScreen ? {width: '30%'} : { width: '40%' }}
+            overlayColor="transparent"
+        >
+            <Drawer.Screen name="Home" component={Home} />
+            <Drawer.Screen name="Login" component={Login} />
+        </Drawer.Navigator>
+    );
+}
+
 export default LeftDrawer;

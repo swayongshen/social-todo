@@ -9,11 +9,12 @@ import { AppContext } from '../App';
 //Line break component
 const Br = () => <Text>{'\n'}</Text>;
 
-const Home = () => {
+const Home = ({navigation}) => {
     const state = useContext(AppContext);
     
     return (
     <View>
+        <MyHeader navigation={navigation}/>
         <Br />
         <View>
             <List tasks={state.tasks} />

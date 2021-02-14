@@ -1,8 +1,13 @@
 import React from 'react';
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
+import MyHeader from './MyHeader';
 
-const Login = () => {
-    return <Text>Login!</Text>
+const Login = ({navigation}) => {
+    return (
+    <View>
+        <MyHeader navigation={navigation}/>
+        <Text>Login!</Text>
+    </View>)
 }
 
 export default Login;

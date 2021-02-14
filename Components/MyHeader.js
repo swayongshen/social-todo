@@ -1,23 +1,23 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Header } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Entypo';
 import AddIcon from 'react-native-vector-icons/AntDesign';
 import AddTaskModal from './AddTaskModal';
+import { AppContext } from '../App';
 
-
-const MyHeader = ({setAddTaskModal}) => {
-    const [showMenu, setShowMenu] = useState(false);
+const MyHeader = ({navigation}) => {
+    console.log(navigation);
+    const {setAddTaskModal} = useContext(AppContext);
 
     /** Show either open or fold menu button depending on whether menu is open. */
     const menuButton = <Icon.Button
-        name={showMenu ? "menu-unfold" : "menu-fold"}
+        name="menu"
         backgroundColor="#121212"
         color="white"
         style={style.menuButton}
-        onPress={() => {
-            setShowMenu((currState) => !currState);
-    }} />
+        onPress={() => navigation.toggleDrawer()}
+    />
 
     const title = <Text style={style.title}>Social To Do</Text>
 
