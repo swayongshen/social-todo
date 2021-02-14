@@ -58,13 +58,11 @@ const App: () => React$Node = () => {
     return (
         <SafeAreaProvider>
             <AppContext.Provider value={state}>
-                <StatusBar barStyle="light-content" hidden={false} backgroundColor="#121212" />
                 <NavigationContainer>
                     <LeftDrawer />
                 </NavigationContainer>
             </AppContext.Provider>
         </SafeAreaProvider>
-
     );
 };
 
