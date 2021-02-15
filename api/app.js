@@ -3,6 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+var bodyparser = require('body-parser');
+//Chooses between the production vs default (testing) database parameters.
+const config = require('./config');
+const db = config.get(process.env.NODE_ENV);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -18,6 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyparser.urlencoded({extended: false}));
+app.use(bodyparser.json());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -37,5 +44,17 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// database connection
+mongoose.connect(db.DATABASE,{ useNewUrlParser: true,useUnifiedTopology:true },function(err){
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("database is connected");
+    }
+});
+
+
+
 
 module.exports = app;
