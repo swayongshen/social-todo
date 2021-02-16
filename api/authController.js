@@ -1,4 +1,4 @@
-const { User } = require('.mongo_models/UserModel');
+const { User } = require('./mongo_models/userModel');
 
 
 exports.registerUser = async (req, res) => {
@@ -87,4 +87,4 @@ exports.getUserDetails = (req, res) => {
         email: req.user.email,
 
     });
-});
+};

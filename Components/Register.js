@@ -1,20 +1,12 @@
 import React from 'react';
-import { Text, View, StyleSheet, TextInput, Button } from 'react-native'
+import { Text, View, StyleSheet, Button, TextInput, TouchableHighlight } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import Icon from 'react-native-vector-icons/Entypo';
-
 import MyHeader from './MyHeader';
 
-
-const Login = ({ navigation }) => {
+const Register = ({navigation}) => {
     const { control, handleSubmit, errors } = useForm();
-
-    const login = (formData) => {
-        const {username, password} = formData;
-        
-    }
-
-    /**
+    
+        /**
      * The text box field component for user to enter login.
      */
     const inputField = (name, placeholder, isPassword = false) => (<Controller
@@ -35,10 +27,11 @@ const Login = ({ navigation }) => {
         defaultValue=""
     />)
 
+
     return (
-        <View style={{flex: 1}}>
-            <MyHeader navigation={navigation} type="login" style={{flex:1}}/>
-            <View style={{flex:1}}/>
+    <View style={{flex:1}}>
+        <MyHeader navigation={navigation} type="register" style={{flex:1}}/>
+        <View style={{flex:1}}/>
             <View style={style.inputGroup}>
                 <View style={{flex: 0, flexDirection:'row', alignItems:'center', paddingRight: 70}}>
                     <Text style={{justifyContent:'flex-end'}}>Username   </Text>
@@ -49,14 +42,9 @@ const Login = ({ navigation }) => {
                     {inputField("password", "", true)}
                 </View>
                 <View style={{paddingTop: 30}}></View>
-                <Icon.Button 
-                    name = "login"
-                    backgroundColor="#121212"
-                    style={style.loginButton}
-                    onPress={handleSubmit(login)}
-                >Login</Icon.Button>
+                <TouchableHighlight style={style.registerButton}><Text>Register</Text></TouchableHighlight>
             </View>
-        </View>)
+    </View>)
 }
 
 const style = StyleSheet.create({
@@ -72,9 +60,15 @@ const style = StyleSheet.create({
         width: 200
     },
 
-    loginButton: {
-        borderRadius: 10,
+    registerButton: {
+        backgroundColor: '#ebe4e4',
+        borderRadius: 15,
+        minWidth: 70,
+        minHeight: 30,
+        borderWidth: 2,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 
-export default Login;
+export default Register;

@@ -2,7 +2,7 @@
  * Verifies user's token
  */
 
-const { User } = require('../mongo_models/UserModel');
+const { User } = require('../mongo_models/userModel');
 
 /**
  * This is an express middlware method which processes a request and 

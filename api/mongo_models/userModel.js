@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const config = require('../config/config').get(process.env.NODE_ENV);
+const config = require('../config').get(process.env.NODE_ENV);
 const salt = 10;
 
 const userSchema = mongoose.Schema({
