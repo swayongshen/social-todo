@@ -12,7 +12,7 @@ const { User } = require('../mongo_models/userModel');
  * is in the database.
  */
 const auth = (req, res, next) => {
-    let token = req.cookies.authToken;
+    let token = req.token;
 
     User.findByToken(token, (err, user) => {
         if (err) throw err;

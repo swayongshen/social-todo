@@ -4,12 +4,14 @@ const { User } = require('./mongo_models/userModel');
 exports.registerUser = async (req, res) => {
     //Creates a new user instance based on the mongoDb schema
     const user = new User(req.body);
+    console.log(req.body);
 
     //Attempts to add this user to database
     await user.save((err, doc) => {
         if (err) { 
             return res.status(422).json({ errors: err }) 
         } else {
+            console.log(doc);
             const userData = {
                 firstName: doc.firstName,
                 lastName: doc.lastName,
