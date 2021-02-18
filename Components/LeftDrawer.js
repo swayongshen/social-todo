@@ -3,9 +3,10 @@ import { View, Text, Button, useWindowDimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AppContext } from '../App';
 
-import Login from "./Login"
-import Home from "./Home"
-import Register from "./Register" 
+import Login from "./Login";
+import Home from "./Home";
+import Register from "./Register" ;
+import Logout from "./Logout";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,6 +26,7 @@ function LeftDrawer() {
             <Drawer.Screen name="Home" component={Home} />
             <Drawer.Screen name="Login" component={Login} />
             { state.loginState.isLoggedIn || <Drawer.Screen name="Register" component={Register} />}
+            { state.loginState.isLoggedIn && <Drawer.Screen name="Logout" component={Logout} />}
         </Drawer.Navigator>
     );
 }

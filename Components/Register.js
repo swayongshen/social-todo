@@ -15,13 +15,15 @@ const Register = ({navigation}) => {
     const [errorMsgContent, setErrorMsgContent] = useState(defaultErrorMsg);
     const [isError, setIsError] = useState(false);
 
-
+    /**
+     * Sends API request to register and returns the JWT token if successful.
+     */
     const sendRegisterPostRequest = async (newUser) => {
-        const url = Environment('API_END_POINT');
+        const url = Environment('API_END_POINT') + '/register';
         console.log(newUser);
         console.log(JSON.stringify(newUser));
         try {
-            let response = await axios.post(url + '/register', newUser);
+            let response = await axios.post(url, newUser);
             json = response.data;
             if (response.status != 200) {
                 setErrorMsgContent(json.errors._message);
@@ -29,19 +31,18 @@ const Register = ({navigation}) => {
                 
             //Set token
             } else {
-                await deviceStorage.saveItem('id_token', json.key);
-                //Need to update app.js state of login
                 setIsError(false);
-                navigation.navigate('Home');
-                //Add message that registration was successful.
+                return json.key;
+                
+                
+                
             }
         } catch (error) {
             console.error(error);
         }
-
     }
     
-    const registerUser = (formData) => {
+    const registerUser = async (formData) => {
         const defaultErrorCondition = errors.firstName || errors.lastName || errors.email || errors.password || errors.confirmPassword;
         if (defaultErrorCondition) {
             console.log("huh");
@@ -59,7 +60,10 @@ const Register = ({navigation}) => {
     
         const user = {firstName, lastName, email, password};
 
-        sendRegisterPostRequest(user);
+        const token = sendRegisterPostRequest(user);
+        await deviceStorage.saveItem('id_token', token);
+        navigation.navigate('Home');
+        //Add message that registration was successful.
         
     }
 

@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet, TextInput, Button } from 'react-native'
 import { useForm, Controller } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
+import deviceStorage from '../storage';
+import { sendLoginPostRequest } from '../auth';
 
 import MyHeader from './MyHeader';
 
 
 const Login = ({ navigation }) => {
     const { control, handleSubmit, errors } = useForm();
+    const [isError, setIsError] = useState(false);
 
-    const login = (formData) => {
+    
+
+    const handleLogin = (formData) => {
         const {username, password} = formData;
-        
+        try {
+            const token = sendLoginPostRequest({username, password});
+            deviceStorage.saveItem("id_token", token);
+            navigation.navigate("Home");
+        } catch (error) {
+            setIsError(true);
+            console.error(error);
+        }
     }
 
     /**
@@ -37,6 +50,7 @@ const Login = ({ navigation }) => {
 
     return (
         <View style={{flex: 1}}>
+            { isError && <Text style={style.errorMsg}>Error: Please check your credentials.</Text>}
             <MyHeader navigation={navigation} type="login" style={{flex:1}}/>
             <View style={{flex:1}}/>
             <View style={style.inputGroup}>
@@ -53,13 +67,18 @@ const Login = ({ navigation }) => {
                     name = "login"
                     backgroundColor="#121212"
                     style={style.loginButton}
-                    onPress={handleSubmit(login)}
+                    onPress={handleSubmit(handleLogin)}
                 >Login</Icon.Button>
             </View>
         </View>)
 }
 
 const style = StyleSheet.create({
+    errorMsg: {
+        color:"red",
+        bottom: 10
+    },
+
     inputGroup: {
         flex: 3,
         justifyContent: 'flex-start',
