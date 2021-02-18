@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, View, StyleSheet, TextInput, Button } from 'react-native'
 import { useForm, Controller } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
 import deviceStorage from '../storage';
 import { sendLoginPostRequest } from '../auth';
+import { AppContext } from '../App';
 
 import MyHeader from './MyHeader';
 
@@ -12,14 +13,17 @@ import MyHeader from './MyHeader';
 const Login = ({ navigation }) => {
     const { control, handleSubmit, errors } = useForm();
     const [isError, setIsError] = useState(false);
+    const state = useContext(AppContext);
+    const setLoginState = state.setLoginState;
 
     
 
-    const handleLogin = (formData) => {
+    const handleLogin = async (formData) => {
         const {username, password} = formData;
         try {
-            const token = sendLoginPostRequest({username, password});
-            deviceStorage.saveItem("id_token", token);
+            const token = await sendLoginPostRequest({username, password});
+            await deviceStorage.saveItem("id_token", token);
+            setLoginState({isLoggedIn: true, token:token});
             navigation.navigate("Home");
         } catch (error) {
             setIsError(true);
@@ -50,10 +54,10 @@ const Login = ({ navigation }) => {
 
     return (
         <View style={{flex: 1}}>
-            { isError && <Text style={style.errorMsg}>Error: Please check your credentials.</Text>}
             <MyHeader navigation={navigation} type="login" style={{flex:1}}/>
             <View style={{flex:1}}/>
             <View style={style.inputGroup}>
+                { isError && <Text style={style.errorMsg}>Error: Please check your credentials.</Text>}
                 <View style={{flex: 0, flexDirection:'row', alignItems:'center', paddingRight: 70}}>
                     <Text style={{justifyContent:'flex-end'}}>Username   </Text>
                     {inputField("username", "")}
@@ -76,7 +80,9 @@ const Login = ({ navigation }) => {
 const style = StyleSheet.create({
     errorMsg: {
         color:"red",
-        bottom: 10
+        bottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     inputGroup: {

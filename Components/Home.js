@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 import MyHeader from './MyHeader';
@@ -11,7 +11,7 @@ const Br = () => <Text>{'\n'}</Text>;
 
 const Home = ({navigation}) => {
     const state = useContext(AppContext);
-    
+   
     return (
     <View>
         <MyHeader navigation={navigation} type="home"/>

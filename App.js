@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
     ScrollView,
@@ -22,9 +22,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import MyHeader from './Components/MyHeader';
 import { SafeAreaProvider } from 'react-native-safe-area-view';
 import LeftDrawer from './Components/LeftDrawer';
+import deviceStorage from './storage';
+import { checkedLoggedIn } from './auth';
 
 
 export const AppContext = React.createContext();
+
 
 const App: () => React$Node = () => {
 
@@ -43,8 +46,12 @@ const App: () => React$Node = () => {
     /** Used to display add task dialogue when add button is pressed. */
     const [addTaskModal, setAddTaskModal] = useState(null);
 
-    /** Should change to read from storage and see if logged in. */
-    const [loginState, setLoginState] = useState({isLoggedIn: false, token: null});
+    /** Check if token is valid */
+    const defaultLoginState = checkedLoggedIn().then(result => {
+        isLoggedIn = result != null;
+        return {isLoggedIn:isLoggedIn, token:result};
+    });
+    const [loginState, setLoginState] = useState(defaultLoginState);
 
     /** State to be passed as context */
     const state = {

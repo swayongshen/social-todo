@@ -1,4 +1,4 @@
-import { AsyncStorage } from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAvoidingView } from 'react-native';
 
 const deviceStorage = {
@@ -17,6 +17,14 @@ const deviceStorage = {
           } catch (error) {
             console.log('AsyncStorage Error: ' + error.message);
           }
+    },
+
+    async removeItem(key) {
+        try {
+          await AsyncStorage.removeItem(key);
+        } catch (error) {
+          console.log('AsyncStorage Error: ' + error.message);
+        }
     }
 
   
