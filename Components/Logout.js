@@ -14,7 +14,7 @@ const Logout = ({navigation}) => {
         } catch (error) {
         }
         navigation.navigate("Home");
-    });
+    }, []);
     return <View></View>
 }
 

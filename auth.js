@@ -10,6 +10,9 @@ export const sendLoginPostRequest = async ({email, password}) => {
         let response = await axios.post(url, {email, password});
         json = await response.data;
         if (response.status != 200) {
+            if (response.status === 404) {
+                throw ("Invalid email address.")
+            }
             throw ("Login error, please check your credentials")
         //Set token
         } else {
@@ -36,29 +39,33 @@ export const sendRegisterPostRequest = async (newUser) => {
             return sendLoginPostRequest({email:newUser.email, password:newUser.password});
         }
     } catch (error) {
+        console.error(error);
         throw ("Register error");
     }
 }
 
 export const checkedLoggedIn = async () => {
     //Check if token exists.
-    const token = deviceStorage.getItem("id_token");
+    const token = await deviceStorage.getItem("id_token");
     if (token == null) {
         return null;
     }
 
     const url = Environment('API_END_POINT') + '/auth';
     try {
-        let response = await axios.post(url, {token});
+        let response = await axios.post(url, {token:token});
         json = await response.data;
+        
         if (response.status != 200) {
             return null;
         //Set token
         } else {
             console.log("Success auth");
-            return json.token;
+            console.log(token);
+            return token;
         }
     } catch (error) {
+        console.error(error);
         return null;
     }
     

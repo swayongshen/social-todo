@@ -24,9 +24,9 @@ function LeftDrawer() {
             overlayColor="transparent"
         >
             <Drawer.Screen name="Home" component={Home} />
-            {state.loginState.isLoggedIn || <Drawer.Screen name="Login" component={Login} />}
-            { state.loginState.isLoggedIn || <Drawer.Screen name="Register" component={Register} />}
-            { state.loginState.isLoggedIn && <Drawer.Screen name="Logout" component={Logout} />}
+            {state.loginState.isLoggedIn && <Drawer.Screen name="Login" component={Login} />}
+            { state.loginState.isLoggedIn && <Drawer.Screen name="Register" component={Register} />}
+            { state.loginState.isLoggedIn || <Drawer.Screen name="Logout" component={Logout} />}
         </Drawer.Navigator>
     );
 }

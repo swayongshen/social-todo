@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
  * First, check if user's cookie's token is valid in database. 
  * If valid, call getUserDetails to return user details as response to user.
  */
-router.get('/auth', auth, getUserDetails);
+router.post('/auth', auth, getUserDetails);
 
 /**
  * First check if user's cookie's token is valid in database.

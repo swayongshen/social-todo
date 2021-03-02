@@ -19,9 +19,9 @@ const Login = ({ navigation }) => {
     
 
     const handleLogin = async (formData) => {
-        const {username, password} = formData;
+        const {email, password} = formData;
         try {
-            const token = await sendLoginPostRequest({username, password});
+            const token = await sendLoginPostRequest({email, password});
             await deviceStorage.saveItem("id_token", token);
             setLoginState({isLoggedIn: true, token:token});
             navigation.navigate("Home");
@@ -58,9 +58,9 @@ const Login = ({ navigation }) => {
             <View style={{flex:1}}/>
             <View style={style.inputGroup}>
                 { isError && <Text style={style.errorMsg}>Error: Please check your credentials.</Text>}
-                <View style={{flex: 0, flexDirection:'row', alignItems:'center', paddingRight: 70}}>
-                    <Text style={{justifyContent:'flex-end'}}>Username   </Text>
-                    {inputField("username", "")}
+                <View style={{flex: 0, flexDirection:'row', alignItems:'center', paddingLeft: 25, paddingRight: 70}}>
+                    <Text style={{justifyContent:'flex-end'}}>Email   </Text>
+                    {inputField("email", "")}
                 </View>
                 <View style={{flex: 0, flexDirection:'row', alignItems:'center', paddingTop:10, paddingRight: 70}}>
                     <Text>Password   </Text>

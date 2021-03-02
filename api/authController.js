@@ -9,6 +9,7 @@ exports.registerUser = async (req, res) => {
     //Attempts to add this user to database
     await user.save((err, doc) => {
         if (err) { 
+            console.log(err);
             return res.status(422).json({ errors: err }) 
         } else {
             console.log(doc);
@@ -34,6 +35,7 @@ exports.loginUser = (req, res) => {
     User.findOne({ 'email': req.body.email }, (err, user) => {
         //No such email
         if (!user) {
+            console.error("No such user");
             return res.status(404).json({ success: false, message: 'User email not found!' });
         //Found the email
         } else {
