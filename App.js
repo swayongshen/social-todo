@@ -46,12 +46,19 @@ const App: () => React$Node = () => {
     /** Used to display add task dialogue when add button is pressed. */
     const [addTaskModal, setAddTaskModal] = useState(null);
 
+    const [loginState, setLoginState] = useState(null);
+
+    useEffect(() => {
     /** Check if token is valid */
-    const defaultLoginState = checkedLoggedIn().then(result => {
-        isLoggedIn = result != null;
-        return {isLoggedIn:isLoggedIn, token:result};
-    });
-    const [loginState, setLoginState] = useState(defaultLoginState);
+    checkedLoggedIn().then(result => {
+        result != null 
+            ? setLoginState({isLoggedIn: true, token:result}) 
+            : setLoginState({isLoggedIn: false, token: null});
+    })}, []);
+
+
+    
+    console.log(loginState);
 
     /** State to be passed as context */
     const state = {

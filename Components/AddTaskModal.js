@@ -49,7 +49,11 @@ const AddTaskModal = ({setAddTaskModal }) => {
     return (
         <View>
             {console.log("render")}
-            <Modal isVisible={true} backdropColor="white">
+            <Modal 
+                isVisible={true} 
+                backdropColor="white" 
+                onBackButtonPress={() => setAddTaskModal(() => null)}
+                onBackdropPress={() => setAddTaskModal(() => null)}>
                 <View style={style.form}>
                     {inputField}
                     {/* Error message */}

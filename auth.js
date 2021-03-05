@@ -60,14 +60,26 @@ export const checkedLoggedIn = async () => {
             return null;
         //Set token
         } else {
-            console.log("Success auth");
-            console.log(token);
             return token;
         }
     } catch (error) {
         console.error(error);
         return null;
     }
-    
+}
 
+/**
+ * Assumption: Already logged in.
+ */
+export const logout = () => {
+    const token = deviceStorage.getItem("id_token");
+    const url = Environment('API_END_POINT') + '/logout';
+    if (token != null) { 
+        try {
+            axios.post(url, {token:token});
+            deviceStorage.removeItem("id_token");
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }

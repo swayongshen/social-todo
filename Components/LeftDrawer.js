@@ -17,16 +17,17 @@ function LeftDrawer() {
 
     const isLargeScreen = dimensions.width >= 1920;
 
+    console.log("Drawer", state.loginState);
     return (
         <Drawer.Navigator
             drawerType={isLargeScreen ? 'permanent' : 'back'}
             drawerStyle={isLargeScreen ? {width: '30%'} : { width: '40%' }}
             overlayColor="transparent"
         >
-            <Drawer.Screen name="Home" component={Home} />
-            {state.loginState.isLoggedIn && <Drawer.Screen name="Login" component={Login} />}
-            { state.loginState.isLoggedIn && <Drawer.Screen name="Register" component={Register} />}
-            { state.loginState.isLoggedIn || <Drawer.Screen name="Logout" component={Logout} />}
+            <Drawer.Screen name="Home" component={Home}/>
+            {state.loginState.isLoggedIn || <Drawer.Screen name="Login" component={Login} />}
+            { state.loginState.isLoggedIn || <Drawer.Screen name="Register" component={Register} />}
+            { state.loginState.isLoggedIn && <Drawer.Screen name="Logout" component={Logout} options={{unmountOnBlur: true}}/>}
         </Drawer.Navigator>
     );
 }
